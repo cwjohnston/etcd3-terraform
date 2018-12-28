@@ -48,3 +48,12 @@ data "template_file" "ntpdate_unit" {
 data "template_file" "ntpdate_timer_unit" {
   template = "${file("${path.module}/cloudinit/ntpdate_timer_unit")}"
 }
+
+data "template_file" "sensu_backend_user_data" {
+  template = "${file("templates/userdata.tmpl")}"
+
+  vars {
+    etcd_elb =  "http://${aws_elb.internal.dns_name}:2379"
+    script   = "${file("templates/backend.sh")}"
+  }
+}

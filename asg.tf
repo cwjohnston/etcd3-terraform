@@ -73,3 +73,30 @@ resource "aws_ebs_volume" "ssd" {
     "role"        = "peer-${count.index}-ssd.${var.role}"
   }
 }
+
+resource "aws_launch_configuration" "sensu_backend" {
+  image_id                    = "${data.aws_ami.centos.id}"
+  instance_type               = "t2.micro"
+  security_groups             = ["${aws_security_group.sensu_backend.id}"]
+  key_name                    = "${aws_key_pair.default.key_name}"
+  associate_public_ip_address = true
+  user_data                   = "${data.template_file.sensu_backend_user_data.rendered}"
+  lifecycle                   { create_before_destroy = true }
+}
+
+resource "aws_autoscaling_group" "sensu_backend" {
+  max_size                    = "${var.sensu_backend_cluster_size}"
+  min_size                    = "${var.sensu_backend_cluster_size}"
+  launch_configuration        = "${aws_launch_configuration.sensu_backend.name}"
+  vpc_zone_identifier         = ["${aws_subnet.default.*.id}"]
+  load_balancers              = ["${aws_elb.sensu_backend.name}"]
+
+
+  tag {
+    key = "Name"
+    value = "Sensu Backend"
+    propagate_at_launch = true
+  }
+
+  lifecycle { create_before_destroy = true }
+}
