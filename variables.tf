@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-2"
 }
 
 variable "instance_type" {
@@ -7,11 +7,11 @@ variable "instance_type" {
 }
 
 variable "region" {
-  default = "eu-west-1"
+  default = "us-east-2"
 }
 
 variable "azs" {
-  default = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  default = ["us-east-2a", "us-east-2b", "us-east-2c"]
 }
 
 variable "environment" {
@@ -23,7 +23,7 @@ variable "role" {
 }
 
 variable "ami" {
-  default = "ami-a0ff1ed9"
+  default = "ami-0fd1c9a63f8fdb8a5"
 }
 
 variable "vpc_cidr" {
@@ -45,5 +45,5 @@ variable "cluster_size" {
 }
 
 variable "ntp_host" {
-  default = "0.europe.pool.ntp.org"
+  default = "0.us.pool.ntp.org"
 }
