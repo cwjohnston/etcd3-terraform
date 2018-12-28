@@ -1,0 +1,26 @@
+---
+spec:
+  check_hooks: null
+  command: /usr/lib64/nagios/plugins/check_http -H sensu.io -u https://sensu.io -S
+  handlers: []
+  high_flap_threshold: 0
+  interval: 60
+  low_flap_threshold: 0
+  metadata:
+    annotations: null
+    labels: null
+    name: check_website
+    namespace: default
+  output_metric_format: "nagios_perfdata"
+  output_metric_handlers: []
+  proxy_entity_name: ""
+  publish: true
+  round_robin: false
+  runtime_assets: []
+  stdin: false
+  subdue: null
+  subscriptions:
+  - rhel
+  timeout: 0
+  ttl: 0
+type: CheckConfig
