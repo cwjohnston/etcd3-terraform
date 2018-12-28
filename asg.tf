@@ -1,5 +1,5 @@
-resource "aws_launch_configuration" "default" {
-  count                       = "${var.cluster_size}"
+resource "aws_launch_configuration" "etcd" {
+  count                       = "${var.etcd_cluster_size}"
   name_prefix                 = "peer-${count.index}.${var.role}.${var.region}.i.${var.environment}.${var.dns["domain_name"]}-"
   image_id                    = "${var.ami}"
   instance_type               = "${var.instance_type}"
@@ -15,8 +15,8 @@ resource "aws_launch_configuration" "default" {
   }
 }
 
-resource "aws_autoscaling_group" "default" {
-  count                     = "${var.cluster_size}"
+resource "aws_autoscaling_group" "etcd" {
+  count                     = "${var.etcd_cluster_size}"
   availability_zones        = ["${element(var.azs, count.index)}"]
   name                      = "peer-${count.index}.${var.role}.${var.region}.i.${var.environment}.${var.dns["domain_name"]}"
   max_size                  = 1
@@ -25,7 +25,7 @@ resource "aws_autoscaling_group" "default" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
   force_delete              = true
-  launch_configuration      = "${element(aws_launch_configuration.default.*.name, count.index)}"
+  launch_configuration      = "${element(aws_launch_configuration.etcd.*.name, count.index)}"
   vpc_zone_identifier       = ["${element(aws_subnet.default.*.id, count.index)}"]
   load_balancers            = ["${aws_elb.internal.name}"]
   wait_for_capacity_timeout = "0"
@@ -62,7 +62,7 @@ resource "aws_autoscaling_group" "default" {
 }
 
 resource "aws_ebs_volume" "ssd" {
-  count             = "${var.cluster_size}"
+  count             = "${var.etcd_cluster_size}"
   type              = "gp2"
   availability_zone = "${element(var.azs, count.index)}"
   size              = 100

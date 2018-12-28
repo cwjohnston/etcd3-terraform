@@ -1,5 +1,5 @@
 data "template_file" "cloud-init" {
-  count    = "${var.cluster_size}"
+  count    = "${var.etcd_cluster_size}"
   template = "${file("${path.module}/cloudinit/userdata-template.json")}"
 
   vars {
@@ -15,7 +15,7 @@ data "template_file" "cloud-init" {
 }
 
 data "template_file" "etcd_member_unit" {
-  count    = "${var.cluster_size}"
+  count    = "${var.etcd_cluster_size}"
   template = "${file("${path.module}/cloudinit/etcd_member_unit")}"
 
   vars {
@@ -26,7 +26,7 @@ data "template_file" "etcd_member_unit" {
 }
 
 data "template_file" "etcd_bootstrap_unit" {
-  count    = "${var.cluster_size}"
+  count    = "${var.etcd_cluster_size}"
   template = "${file("${path.module}/cloudinit/etcd_bootstrap_unit")}"
 
   vars {

@@ -40,8 +40,12 @@ variable "dns" {
 
 variable "root_key_pair_public_key" {}
 
-variable "cluster_size" {
-  default = 9
+variable "etcd_cluster_size" {
+  default = 3
+}
+
+variable "sensu_backend_cluster_size" {
+  default = 3
 }
 
 variable "ntp_host" {

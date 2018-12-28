@@ -22,7 +22,7 @@ resource "aws_elb" "internal" {
   }
 
   tags {
-    Name        = "${var.role}.${var.region}.i.${var.environment}.${var.dns["domain_name"]}"
+    Name        = "etcd ${var.role}.${var.region}.i.${var.environment}.${var.dns["domain_name"]}"
     environment = "${var.environment}"
     role        = "${var.role}"
   }

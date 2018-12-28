@@ -12,7 +12,7 @@ resource "aws_route53_record" "default" {
 }
 
 resource "aws_route53_record" "peers" {
-  count   = "${var.cluster_size}"
+  count   = "${var.etcd_cluster_size}"
   zone_id = "${aws_route53_zone.default.id}"
   name    = "peer-${count.index}.${var.role}.${var.region}.i.${var.environment}.${var.dns["domain_name"]}"
   type    = "A"
